@@ -16,5 +16,5 @@ This code uses Python 2.7, as well as the following python packages:
 Use PIP to install any missing packages. 
 
 ### Running 
-First, move an .mp4 video file into this directory. Then run, for example, `python run.py my_video_file.mp4 1`, where the last argument '1' is the frame stride (the number of frames to skip between segmentations). Wait for the pre-trained model to load from the Models directory, and eventually two windows will appear displaying the original first frame, and the segmentation output. Simply press any key to proceed to move on to the next frame. 
+First, move an .mp4 video file into this directory. Then run, for example, `python  run.py  my_video_file.mp4  1`, where the last argument '1' tells the program to segment every frame in the video (a '100' would mean 100th frame will get segmented). Wait for the pre-trained model to load from the Models directory, and eventually two windows will appear displaying the original first frame, and the segmentation output. Simply press any key to proceed to move on to the next frame. 
 
