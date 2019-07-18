@@ -11,7 +11,6 @@ This code uses Python 2.7, as well as the following python packages:
 * OpenCV
 * tensorflow
 * numpy
-* matplotlib
 
 Use PIP to install any missing packages. 
 
