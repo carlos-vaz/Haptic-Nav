@@ -11,11 +11,10 @@ This code uses Python 2.7, as well as the following python packages:
 * OpenCV
 * tensorflow
 * numpy
-* six
 * matplotlib
 
 Use PIP to install any missing packages. 
 
 ### Running 
-First, move an .mp4 video file into this directory and name it 'footage.mp4'. Then run `python run.py`, and wait for the pre-trained model to download (must have an internet access). After a while, two windows will appear displaying the original first frame, and the segmentation output. Simply press any key to proceed to move on to the next frame. 
+First, move an .mp4 video file into this directory. Then run `python run.py [mp4 file name] [frame stride]`, and wait for the pre-trained model to load from the Models directory. After a while, two windows will appear displaying the original first frame, and the segmentation output. Simply press any key to proceed to move on to the next frame. 
 
