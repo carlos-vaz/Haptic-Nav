@@ -1,4 +1,5 @@
 import sys
+#from matplotlib import pyplot as plt
 
 if len(sys.argv) != 3:
 	print("Usage: \n\tpython run.py [video file] [frame stride]")
@@ -29,13 +30,35 @@ for cv_img in vf_iter:
 		continue
 	pil_img = Image.fromarray(cv_img)
 	resized_im, seg_map = MODEL.run(pil_img)
-	print(seg_map.shape)
-	seg_map = seg_map.astype(float) * 255 / np.amax(seg_map)
-	seg_map = np.uint8(seg_map)
-	seg_map_rgb = cv2.cvtColor(seg_map, cv2.COLOR_GRAY2BGR)
+	labels = []
+	for pix in seg_map.flatten():
+		if pix not in labels:
+			labels.append(pix)
+	labels.sort()
+	print(labels)
+
+	#dely = np.array(resized_im).shape[0] / len(labels)
+	#map_img = np.zeros(np.array(resized_im).shape)
+	#i = 0
+	#for color in labels:
+	#	map_img[i:i+dely][10:30] = int(float(color*255)/33)
+	#	print(int(float(color*255)/33))
+	#	i += dely
+	#map_img_rgb = cv2.cvtColor(map_img, cv2.COLOR_GRAY2BGR)
+	#cv2.imshow('ads', map_img)
+	#print(map_img)
+	#map_img = map_img.astype(int)
+	#print(map_img)	
+	#cv2.imshow('dhgs', map_img)
+	#cv2.waitKey(0)
+
+
+	seg_map_img = seg_map.astype(float) * 255 / 33
+	seg_map_img = np.uint8(seg_map_img)
+	seg_map_rgb = cv2.cvtColor(seg_map_img, cv2.COLOR_GRAY2BGR)
 	combined_img = np.concatenate((np.array(resized_im), seg_map_rgb), axis=1)
 	cv2.imshow('Segmentation', combined_img)
 	cv2.waitKey(0)
 	resized_im.close()
 	count += 1
-	
+
