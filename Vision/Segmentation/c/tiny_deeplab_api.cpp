@@ -2,43 +2,34 @@
 #include <stdlib.h>
 #include <iostream>
 #include <tensorflow/c/c_api.h>
+#include "tiny_deeplab_api.hpp"
 
 #define SIZE 513
 
-TF_Buffer* read_file(const char* file);
-
-void free_buffer(void* data, size_t length) { 
-        free(data);
-}
-
-void free_tensor(void* data, size_t length, void* args) { 
-        free(data);
-}
-
-int main() {
-
+Deeplab::Deeplab() {
 	using namespace std;
 	cout << "Hello from TensorFlow C library version" << TF_Version() << endl;
 
 	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
 	TF_Buffer* graph_def = read_file("../Models/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb");
-	TF_Graph* graph = TF_NewGraph();
-	TF_Status* status = TF_NewStatus();
+	graph = TF_NewGraph();
+	status = TF_NewStatus();
 	TF_ImportGraphDefOptions* opts = TF_NewImportGraphDefOptions();
 	TF_GraphImportGraphDef(graph, graph_def, opts, status);
 	TF_DeleteImportGraphDefOptions(opts);
 	if (TF_GetCode(status) != TF_OK) {
 		fprintf(stderr, "ERROR: Unable to import graph %s", TF_Message(status));
-		return 1;
+		return;
 	}
 	cout << "Successfully loaded Deeplab graph" << endl;
-	TF_DeleteStatus(status);
 	TF_DeleteBuffer(graph_def);
 
 	// Initialize Session
 	TF_SessionOptions* sess_opts = TF_NewSessionOptions();
-	TF_Status* sess_status = TF_NewStatus();
-	TF_Session* sess = TF_NewSession(graph, sess_opts, sess_status);
+	session = TF_NewSession(graph, sess_opts, status);
+}
+
+int Deeplab::run_segmentation() {
 
 	// Allocate the input tensor
 	const int64_t dims_in[3] = {513, 513, 3};
@@ -55,7 +46,7 @@ int main() {
 	TF_Output oper_out_ = {oper_out, 0};
 
 	// Run the session on the input tensor
-	TF_SessionRun(sess, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, sess_status);
+	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
 	
 	return 0; 
 }
@@ -75,4 +66,12 @@ TF_Buffer* read_file(const char* file) {
 	buf->length = fsize;
 	buf->data_deallocator = free_buffer; 
 	return buf;
+}
+
+void free_buffer(void* data, size_t length) { 
+        free(data);
+}
+
+void free_tensor(void* data, size_t length, void* args) { 
+        free(data);
 }
