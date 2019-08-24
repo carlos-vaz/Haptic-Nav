@@ -2,5 +2,5 @@
 Follow the instructions at <https://www.tensorflow.org/install/lang_c>. 
 
 
-
-*note: The label map can be found [here](https://github.com/tensorflow/models/issues/6991). 
+## Interpreting the Deeplab output tensor
+The label map can be found [here](https://github.com/tensorflow/models/issues/6991). 
