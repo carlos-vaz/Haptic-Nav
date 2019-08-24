@@ -40,12 +40,23 @@ int main() {
 	TF_Status* sess_status = TF_NewStatus();
 	TF_Session* sess = TF_NewSession(graph, sess_opts, sess_status);
 
-	// Create and feed in the input tensor
+	// Allocate the input tensor
 	const int64_t dims_in[3] = {513, 513, 3};
 	uint8_t* data_in = (uint8_t *)malloc(513*513*3);
-	uint8_t* data_out = (uint8_t *)malloc(513*513);
 	TF_Tensor* input = TF_NewTensor(TF_UINT8, dims_in, 3, data_in, 513*513*3, &free_tensor, NULL);
-	//TF_Tensor* output = TF_NewTensor
+	TF_Operation* oper_in = TF_GraphOperationByName(graph, "ImageTensor");
+	TF_Output oper_in_ = {oper_in, 0};
+
+	// Allocate the output tensor
+	const int64_t dims_out[2] = {513, 513};	
+	uint8_t* data_out = (uint8_t *)malloc(513*513);
+	TF_Tensor* output = TF_NewTensor(TF_UINT8, dims_out, 2, data_out, 513*513, &free_tensor, NULL);
+	TF_Operation* oper_out = TF_GraphOperationByName(graph, "SemanticPredictions");
+	TF_Output oper_out_ = {oper_out, 0};
+
+	// Run the session on the input tensor
+	TF_SessionRun(sess, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, sess_status);
+	
 	return 0; 
 }
 
