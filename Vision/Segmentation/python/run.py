@@ -16,7 +16,7 @@ from DeepLabModel import DeepLabModel
 from frames import VideoFrames
 
 # Instantiate model
-MODEL = DeepLabModel('Models/deeplab_model.tar.gz')
+MODEL = DeepLabModel('../Models/deeplab_model.tar.gz')
 print('model loaded successfully!')
 
 # Run the model on the video frames

@@ -1,9 +1,9 @@
-CC  = gcc
+CC  = g++
 TGT = test_tf
 LIB = -ltensorflow
 
-% : %.c 
-	gcc $< -o $@ ${LIB}
+% : %.cpp 
+	${CC} $< -o $@ ${LIB}
 
 all: ${TGT}
 
