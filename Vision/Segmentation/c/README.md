@@ -3,4 +3,4 @@ Follow the instructions at <https://www.tensorflow.org/install/lang_c>.
 
 
 
-*note: The label map can be found (here)[https://github.com/tensorflow/models/issues/6991]. 
+*note: The label map can be found [here](https://github.com/tensorflow/models/issues/6991). 
