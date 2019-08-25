@@ -29,7 +29,7 @@ Deeplab::Deeplab() {
 	session = TF_NewSession(graph, sess_opts, status);
 }
 
-int Deeplab::run_segmentation() {
+segmap_t* Deeplab::run_segmentation(image_t* img) {
 
 	// Allocate the input tensor
 	const int64_t dims_in[3] = {513, 513, 3};
@@ -48,7 +48,7 @@ int Deeplab::run_segmentation() {
 	// Run the session on the input tensor
 	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
 	
-	return 0; 
+	return NULL; 
 }
 
 TF_Buffer* read_file(const char* file) {                                                  
