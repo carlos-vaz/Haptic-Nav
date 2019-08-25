@@ -13,29 +13,44 @@ int main() {
 
 	// Read/resize input image
 	Mat image = imread("/Users/Daniel/Desktop/cat.jpg"); 
-	int height = image.size().height;
-	int width = image.size().width;
-	double resize_ratio = (double) 513 / max(height, width);
-	Size new_size((int)(resize_ratio*width), (int)(resize_ratio*height));
+	int orig_height = image.size().height;
+	int orig_width = image.size().width;
+	double resize_ratio = (double) 513 / max(orig_height, orig_width);
+	Size new_size((int)(resize_ratio*orig_width), (int)(resize_ratio*orig_height));
 	Mat resized_image;
 	resize(image, resized_image, new_size);
-	cout << "Image resized (h, w): (" << height << "," << width << ") --> (" << new_size.height << ", " << new_size.width << ")" << endl;
+	cout << "Image resized (h, w): (" << orig_height << "," << orig_width << ") --> (" << new_size.height << ", " << new_size.width << ")" << endl;
 	imshow("Image", resized_image);
 	waitKey(0);
 
+	/*vector<uint8_t> v(new_size.width*new_size.height*3);
+	for(int i=0; i<v.size(); i++) {
+		if(i%3==1) 
+			v[i] = 255;
+		else 
+			v[i] = 0;
+	}
+	int sz[3] = {new_size.width, new_size.width, 3};
+	Mat myImg(new_size.height, new_size.width, CV_8UC3);
+	memcpy(myImg.data, v.data(), new_size.width*new_size.height*3);
+	imshow("Custom Image", myImg);
+	waitKey(0);*/
+
+
 	// Allocate input image object
-	const int64_t dims_in[3] = {513, 513, 3};
+	const int64_t dims_in[3] = {new_size.width, new_size.height, 3};
 	image_t* img_in = (image_t*)malloc(sizeof(image_t));
 	img_in->dims = &dims_in[0];
-	img_in->data_ptr = (uint8_t*)malloc(513*513*3);
-	img_in->bytes = 513*513*3*sizeof(uint8_t);
+	//img_in->data_ptr = (uint8_t*)malloc(new_size.width*new_size.height*3);
+	img_in->data_ptr = resized_image.data;
+	img_in->bytes = new_size.width*new_size.height*3*sizeof(uint8_t);
 
 	// Allocate output segmentation map object
-	const int64_t dims_out[2] = {513, 513};
+	const int64_t dims_out[2] = {new_size.width, new_size.height};
 	segmap_t* seg_out = (segmap_t*)malloc(sizeof(segmap_t));
 	seg_out->dims = &dims_out[0];
-	seg_out->data_ptr = (uint8_t*)malloc(513*513);
-	seg_out->bytes = 513*513*sizeof(uint8_t);
+	seg_out->data_ptr = (uint8_t*)malloc(new_size.width*new_size.height);
+	seg_out->bytes = new_size.width*new_size.height*sizeof(uint8_t);
 	
 	// Run Deeplab
 	cout << "Running segmentation" << endl;

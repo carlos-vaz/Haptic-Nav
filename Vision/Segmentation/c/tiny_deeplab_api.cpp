@@ -35,7 +35,7 @@ Deeplab::~Deeplab() {
 	TF_DeleteSession(session, status);
 	TF_DeleteStatus(status);
 	TF_DeleteGraph(graph);
-	cout << "DESTROYED DEEPLAB OBJECT" << endl;
+	cout << "Destroyed Deeplab object" << endl;
 }
 
 int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
