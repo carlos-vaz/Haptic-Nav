@@ -10,8 +10,9 @@ all: $(TGT)
 	$(CC) -c $< -o $@
 
 $(TGT) : $(TGT).o $(OBJ)
-	$(CC) $^ -o $@ $(LIB)
+	$(CC) $^ -o $@ $(LIB) `pkg-config --cflags --libs opencv`
 
 clean:
 	rm $(TGT) $(TGT).o $(OBJ)
 .PHONY : clean
+
