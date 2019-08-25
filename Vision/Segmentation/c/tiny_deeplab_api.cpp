@@ -29,6 +29,11 @@ Deeplab::Deeplab() {
 	session = TF_NewSession(graph, sess_opts, status);
 }
 
+Deeplab::~Deeplab() {
+	using namespace std;
+	cout << "DESTROYING DEEPLAB OBJECT" << endl;
+}
+
 segmap_t* Deeplab::run_segmentation(image_t* img) {
 
 	// Allocate the input tensor

@@ -1,20 +1,17 @@
 CC  = g++
 LIB = -ltensorflow
-TGT = TEST
-OBJ = test.o \
-      tiny_deeplab_api.o
+TGT = test
+OBJ = tiny_deeplab_api.o
 
+all: $(TGT)
+.PHONY : all
 
 %.o : %.cpp
-	${CC} -c $< -o $@
+	$(CC) -c $< -o $@
 
-% : ${OBJ}
-	${CC} $^ -o $@ ${LIB}
-
-all: ${TGT}
-.PHONY: all
+$(TGT) : $(TGT).o $(OBJ)
+	$(CC) $^ -o $@ $(LIB)
 
 clean:
-	rm ${TGT} ${OBJ}
-.PHONY: clean
-
+	rm $(TGT) $(TGT).o $(OBJ)
+.PHONY : clean

@@ -9,11 +9,14 @@ void free_tensor(void* data, size_t length, void* args);
 
 typedef struct segmap {
 	const int64_t dims[2];
-	
+	size_t bytes;
+	uint8_t* data_ptr;
 } segmap_t;
 
 typedef struct image {
 	const int64_t dims[3];
+	size_t bytes;
+	uint8_t* data_ptr;
 } image_t;
 
 
@@ -27,6 +30,7 @@ class Deeplab {
 
    public:
 	Deeplab(); // Constructor 
+	~Deeplab();
 	segmap_t* run_segmentation(image_t*);
 };
 
