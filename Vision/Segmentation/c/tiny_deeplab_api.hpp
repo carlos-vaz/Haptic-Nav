@@ -1,5 +1,3 @@
-//TODO: include stuff only once
-
 #ifndef TINY_DEEPLAB_API_HPP_
 #define TINY_DEEPLAB_API_HPP_
 
