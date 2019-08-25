@@ -31,29 +31,29 @@ Deeplab::Deeplab() {
 
 Deeplab::~Deeplab() {
 	using namespace std;
-	cout << "DESTROYING DEEPLAB OBJECT" << endl;
+	TF_CloseSession(session, status);
+	TF_DeleteSession(session, status);
+	TF_DeleteStatus(status);
+	TF_DeleteGraph(graph);
+	cout << "DESTROYED DEEPLAB OBJECT" << endl;
 }
 
-segmap_t* Deeplab::run_segmentation(image_t* img) {
+int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
 
 	// Allocate the input tensor
-	const int64_t dims_in[3] = {513, 513, 3};
-	uint8_t* data_in = (uint8_t *)malloc(513*513*3);
-	TF_Tensor* input = TF_NewTensor(TF_UINT8, dims_in, 3, data_in, 513*513*3, &free_tensor, NULL);
+	TF_Tensor* input = TF_NewTensor(TF_UINT8, img->dims, 3, img->data_ptr, img->bytes, &free_tensor, NULL);
 	TF_Operation* oper_in = TF_GraphOperationByName(graph, "ImageTensor");
 	TF_Output oper_in_ = {oper_in, 0};
 
 	// Allocate the output tensor
-	const int64_t dims_out[2] = {513, 513};	
-	uint8_t* data_out = (uint8_t *)malloc(513*513);
-	TF_Tensor* output = TF_NewTensor(TF_UINT8, dims_out, 2, data_out, 513*513, &free_tensor, NULL);
+	TF_Tensor* output = TF_NewTensor(TF_UINT8, seg->dims, 2, seg->data_ptr, 513*513, &free_tensor, NULL);
 	TF_Operation* oper_out = TF_GraphOperationByName(graph, "SemanticPredictions");
 	TF_Output oper_out_ = {oper_out, 0};
 
 	// Run the session on the input tensor
 	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
-	
-	return NULL; 
+
+	return 0; 
 }
 
 TF_Buffer* read_file(const char* file) {                                                  
