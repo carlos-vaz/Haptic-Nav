@@ -39,24 +39,25 @@ Deeplab::~Deeplab() {
 }
 
 int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
+	//TODO: Delete old TF_Tensor, TF_Operation, and TF_Output 
 
 	// Allocate the input tensor
-	TF_Tensor* input = TF_NewTensor(TF_UINT8, img->dims, 3, img->data_ptr, img->bytes, &free_tensor, NULL);
+	TF_Tensor* const input = TF_NewTensor(TF_UINT8, img->dims, 3, img->data_ptr, img->bytes, &free_tensor, NULL);
 	TF_Operation* oper_in = TF_GraphOperationByName(graph, "ImageTensor");
-	TF_Output oper_in_ = {oper_in, 0};
+	const TF_Output oper_in_ = {oper_in, 0};
 
 	// Allocate the output tensor
 	TF_Tensor* output = TF_NewTensor(TF_UINT8, seg->dims, 2, seg->data_ptr, 513*513, &free_tensor, NULL);
 	TF_Operation* oper_out = TF_GraphOperationByName(graph, "SemanticPredictions");
-	TF_Output oper_out_ = {oper_out, 0};
+	const TF_Output oper_out_ = {oper_out, 0};
 
 	// Run the session on the input tensor
-	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
+	TF_SessionRun(session, NULL, &oper_in_, &input, 1, &oper_out_, &output, 1, NULL, 0, NULL, status);
 
-	return 0; 
+	return TF_GetCode(status); // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/tf_status.h#L42 
 }
 
-TF_Buffer* read_file(const char* file) {                                                  
+TF_Buffer* read_file(const char* file) {
 	FILE *f = fopen(file, "rb");
 	fseek(f, 0, SEEK_END);
 	long fsize = ftell(f);
@@ -69,7 +70,7 @@ TF_Buffer* read_file(const char* file) {
 	TF_Buffer* buf = TF_NewBuffer();
 	buf->data = data;
 	buf->length = fsize;
-	buf->data_deallocator = free_buffer; 
+	buf->data_deallocator = free_buffer;
 	return buf;
 }
 

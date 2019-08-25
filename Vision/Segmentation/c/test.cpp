@@ -14,6 +14,7 @@ int main() {
 	img_in->dims = &dims_in[0];
 	img_in->data_ptr = (uint8_t*)malloc(513*513*3);
 	img_in->bytes = 513*513*3*sizeof(uint8_t);
+	
 
 	// Allocate output segmentation map object
 	const int64_t dims_out[2] = {513, 513};
@@ -23,7 +24,12 @@ int main() {
 	seg_out->bytes = 513*513*sizeof(uint8_t);
 	
 	// Run Deeplab
-	dl.run_segmentation(img_in, seg_out);
+	int status = dl.run_segmentation(img_in, seg_out);
+	if(status != 0) {
+		cout << "Error running segmentation: " << status << endl;
+		return 1;
+	}
+	
 	cout << "SUCCESSFULLY RAN SEGMENTATION" << endl;
 
 	// Interpret results
