@@ -5,7 +5,7 @@ Follow the instructions at <https://www.tensorflow.org/install/lang_c>. Verify t
 ## 2: Running
 ```
 make
-./TEST
+./test
 ```
 
 ## 3: Interpreting the Deeplab output tensor
