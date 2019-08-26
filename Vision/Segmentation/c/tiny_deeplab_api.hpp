@@ -24,8 +24,8 @@ class Deeplab {
    private:
 	TF_Session* session;
 	TF_Graph* graph;
-	TF_Output output_oper;
-	TF_Output input_oper;
+	//TF_Output output_oper;
+	//TF_Output input_oper;
 	TF_Status* status;
 
    public:

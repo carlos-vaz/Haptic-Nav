@@ -4,8 +4,6 @@
 #include <tensorflow/c/c_api.h>
 #include "tiny_deeplab_api.hpp"
 
-#define SIZE 513
-
 Deeplab::Deeplab() {
 	using namespace std;
 	cout << "Hello from TensorFlow C library version" << TF_Version() << endl;
@@ -27,6 +25,7 @@ Deeplab::Deeplab() {
 	// Initialize Session
 	TF_SessionOptions* sess_opts = TF_NewSessionOptions();
 	session = TF_NewSession(graph, sess_opts, status);
+	cout << "TF_NewSession status: " << TF_GetCode(status) << endl;
 }
 
 Deeplab::~Deeplab() {
@@ -40,6 +39,7 @@ Deeplab::~Deeplab() {
 
 int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
 	//TODO: Delete old TF_Tensor, TF_Operation, and TF_Output 
+	using namespace std;
 
 	// Allocate the input tensor
 	TF_Tensor* const input = TF_NewTensor(TF_UINT8, img->dims, 3, img->data_ptr, img->bytes, &free_tensor, NULL);
@@ -47,12 +47,15 @@ int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
 	const TF_Output oper_in_ = {oper_in, 0};
 
 	// Allocate the output tensor
-	TF_Tensor* output = TF_NewTensor(TF_UINT8, seg->dims, 2, seg->data_ptr, 513*513, &free_tensor, NULL);
+	TF_Tensor* output = TF_NewTensor(TF_UINT8, seg->dims, 2, seg->data_ptr, seg->bytes, &free_tensor, NULL);
 	TF_Operation* oper_out = TF_GraphOperationByName(graph, "SemanticPredictions");
 	const TF_Output oper_out_ = {oper_out, 0};
 
 	// Run the session on the input tensor
-	TF_SessionRun(session, NULL, &oper_in_, &input, 1, &oper_out_, &output, 1, NULL, 0, NULL, status);
+	//const TF_Operation* tgt_op = TF_GraphOperationByName(graph, "ImageTensor");
+	//const TF_Operation* const* tgt_op_ptr = &tgt_op;
+	printf("\n########\nsession: %lx\noper_in_: %lx\ninput: %lx\noper_out_: %lx\noutput: %lx\n########\n\n", session, oper_in_.oper, input, oper_out_.oper, output);
+	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
 
 	return TF_GetCode(status); // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/tf_status.h#L42 
 }

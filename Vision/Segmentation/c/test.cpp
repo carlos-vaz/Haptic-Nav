@@ -20,21 +20,20 @@ int main() {
 	Mat resized_image;
 	resize(image, resized_image, new_size);
 	cout << "Image resized (h, w): (" << orig_height << "," << orig_width << ") --> (" << new_size.height << ", " << new_size.width << ")" << endl;
-	imshow("Image", resized_image);
-	waitKey(0);
+//	imshow("Image", resized_image);
+//	waitKey(0);
 
-	/*vector<uint8_t> v(new_size.width*new_size.height*3);
+	vector<uint8_t> v(new_size.width*new_size.height*3);
 	for(int i=0; i<v.size(); i++) {
 		if(i%3==1) 
 			v[i] = 255;
 		else 
 			v[i] = 0;
 	}
-	int sz[3] = {new_size.width, new_size.width, 3};
 	Mat myImg(new_size.height, new_size.width, CV_8UC3);
 	memcpy(myImg.data, v.data(), new_size.width*new_size.height*3);
 	imshow("Custom Image", myImg);
-	waitKey(0);*/
+	waitKey(0);
 
 
 	// Allocate input image object
@@ -42,7 +41,10 @@ int main() {
 	image_t* img_in = (image_t*)malloc(sizeof(image_t));
 	img_in->dims = &dims_in[0];
 	//img_in->data_ptr = (uint8_t*)malloc(new_size.width*new_size.height*3);
-	img_in->data_ptr = resized_image.data;
+	img_in->data_ptr = myImg.data;
+	//for(int i=0; i<100; i++) {
+	//	cout << (int)img_in->data_ptr[i] << ", ";
+	//}
 	img_in->bytes = new_size.width*new_size.height*3*sizeof(uint8_t);
 
 	// Allocate output segmentation map object
@@ -52,6 +54,7 @@ int main() {
 	seg_out->data_ptr = (uint8_t*)malloc(new_size.width*new_size.height);
 	seg_out->bytes = new_size.width*new_size.height*sizeof(uint8_t);
 	
+
 	// Run Deeplab
 	cout << "Running segmentation" << endl;
 	int status = dl.run_segmentation(img_in, seg_out);
@@ -59,7 +62,7 @@ int main() {
 		cout << "ERROR RUNNING SEGMENTATION: " << status << endl;
 		return 1;
 	}
-	
+
 	cout << "Successfully ran segmentation" << endl;
 
 	// Interpret results
