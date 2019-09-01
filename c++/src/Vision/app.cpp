@@ -1,5 +1,4 @@
 #include <iostream>
-#include <unistd.h>
 #include <opencv2/opencv.hpp>
 #include <librealsense2/rs.hpp>
 #include "tiny_deeplab_api.hpp"
@@ -35,6 +34,7 @@ int main() {
 		Mat original_cv(Size(w_o, h_o), CV_8UC3, (void*)original.get_data(), Mat::AUTO_STEP);
 		imshow("Original", original_cv);
 
+		// Resize RGB frame
 		int orig_height = original_cv.size().height;
 		int orig_width = original_cv.size().width;
 		double resize_ratio = (double) 513 / max(orig_height, orig_width);
@@ -42,7 +42,6 @@ int main() {
 		Mat resized_image;
 		resize(original_cv, resized_image, new_size);
 		cout << "Image resized (h, w): (" << orig_height << "," << orig_width << ") --> (" << new_size.height << ", " << new_size.width << ")" << endl;
-	
 
 		// Prepare image_t and segmap_t objects before calling Deeplab
 		const int64_t dims_in[4] = {1, new_size.height, new_size.width, 3};
@@ -62,6 +61,8 @@ int main() {
 			cout << "ERROR RUNNING SEGMENTATION: " << status << endl;
 			return 1;
 		}
+
+		// Display results
 		Mat mySeg(new_size.height, new_size.width, CV_8UC1);
 		for(int i=0; i<new_size.width*new_size.height; i++){
 			mySeg.data[i] = 5*(uint8_t)seg_out->data_ptr[i];
