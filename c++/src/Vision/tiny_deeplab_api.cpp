@@ -9,7 +9,7 @@ Deeplab::Deeplab() {
 	cout << "Hello from TensorFlow C library version " << TF_Version() << endl;
 
 	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
-	TF_Buffer* graph_def = read_file("/Users/Daniel/Desktop/Haptic_Nav/Vision/Segmentation/Models/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb");
+	TF_Buffer* graph_def = read_file("/Users/Daniel/Desktop/Haptic_Nav/Models/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb");
 	graph = TF_NewGraph();
 	status = TF_NewStatus();
 	TF_ImportGraphDefOptions* opts = TF_NewImportGraphDefOptions();

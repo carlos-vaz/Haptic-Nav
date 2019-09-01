@@ -1,5 +1,4 @@
 import sys
-#from matplotlib import pyplot as plt
 
 if len(sys.argv) != 3:
 	print("Usage: \n\tpython run.py [video file] [frame stride]")

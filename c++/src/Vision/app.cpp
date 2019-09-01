@@ -1,8 +1,8 @@
 #include <iostream>
+#include <unistd.h>
 #include <opencv2/opencv.hpp>
 #include <librealsense2/rs.hpp>
-#include <unistd.h>
-#include "../../Segmentation/c/tiny_deeplab_api.hpp"
+#include "tiny_deeplab_api.hpp"
 
 int main() {
 	using namespace cv;
