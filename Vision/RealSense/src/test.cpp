@@ -24,7 +24,6 @@ int main() {
 	pipe.start(cfg); // Load from file
 	*/
 
-	using namespace cv;
 	const auto window_name = "Display Image";
 	namedWindow(window_name, WINDOW_AUTOSIZE);
 

@@ -52,7 +52,6 @@ int main(int argc, char* argv[]) {
 	const int64_t dims_out[3] = {1, new_size.height, new_size.width};
 	segmap_t* seg_out = (segmap_t*)malloc(sizeof(segmap_t));
 	seg_out->dims = &dims_out[0];
-	seg_out->data_ptr = (int64_t*)calloc(new_size.width*new_size.height, sizeof(int64_t));
 	seg_out->bytes = new_size.width*new_size.height*sizeof(int64_t);
 
 	// Run Deeplab

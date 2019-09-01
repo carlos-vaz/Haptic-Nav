@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <memory>
 #include <tensorflow/c/c_api.h>
 #include "tiny_deeplab_api.hpp"
 
 Deeplab::Deeplab() {
 	using namespace std;
-	cout << "Hello from TensorFlow C library version" << TF_Version() << endl;
+	cout << "Hello from TensorFlow C library version " << TF_Version() << endl;
 
 	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
-	TF_Buffer* graph_def = read_file("../Models/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb");
+	TF_Buffer* graph_def = read_file("/Users/Daniel/Desktop/Haptic_Nav/Vision/Segmentation/Models/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb");
 	graph = TF_NewGraph();
 	status = TF_NewStatus();
 	TF_ImportGraphDefOptions* opts = TF_NewImportGraphDefOptions();
@@ -27,6 +26,8 @@ Deeplab::Deeplab() {
 	TF_SessionOptions* sess_opts = TF_NewSessionOptions();
 	session = TF_NewSession(graph, sess_opts, status);
 	cout << "TF_NewSession status: " << TF_GetCode(status) << endl;
+	curr_iTensor = nullptr;
+	curr_oTensor = nullptr;
 }
 
 Deeplab::~Deeplab() {
