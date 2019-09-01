@@ -26,8 +26,8 @@ Deeplab::Deeplab() {
 	TF_SessionOptions* sess_opts = TF_NewSessionOptions();
 	session = TF_NewSession(graph, sess_opts, status);
 	cout << "TF_NewSession status: " << TF_GetCode(status) << endl;
-	curr_iTensor = nullptr;
-	curr_oTensor = nullptr;
+	curr_iTensor = NULL;
+	curr_oTensor = NULL;
 }
 
 Deeplab::~Deeplab() {
@@ -40,10 +40,6 @@ Deeplab::~Deeplab() {
 }
 
 int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
-	if(curr_iTensor != NULL)
-		TF_DeleteTensor(curr_iTensor);
-	if(curr_oTensor != NULL)
-		TF_DeleteTensor(curr_oTensor);	
 
 	// Allocate the input tensor
 	TF_Tensor* const input = TF_NewTensor(TF_UINT8, img->dims, 4, img->data_ptr, img->bytes, &free_tensor, NULL);
