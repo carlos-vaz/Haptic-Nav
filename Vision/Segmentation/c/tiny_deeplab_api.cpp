@@ -42,20 +42,19 @@ int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
 	using namespace std;
 
 	// Allocate the input tensor
-	TF_Tensor* const input = TF_NewTensor(TF_UINT8, img->dims, 3, img->data_ptr, img->bytes, &free_tensor, NULL);
+	TF_Tensor* const input = TF_NewTensor(TF_UINT8, img->dims, 4, img->data_ptr, img->bytes, &free_tensor, NULL);
 	TF_Operation* oper_in = TF_GraphOperationByName(graph, "ImageTensor");
 	const TF_Output oper_in_ = {oper_in, 0};
 
 	// Allocate the output tensor
-	TF_Tensor* output = TF_NewTensor(TF_UINT8, seg->dims, 2, seg->data_ptr, seg->bytes, &free_tensor, NULL);
+	TF_Tensor * output = TF_AllocateTensor(TF_UINT8, seg->dims, 3, seg->bytes);
 	TF_Operation* oper_out = TF_GraphOperationByName(graph, "SemanticPredictions");
 	const TF_Output oper_out_ = {oper_out, 0};
 
 	// Run the session on the input tensor
-	//const TF_Operation* tgt_op = TF_GraphOperationByName(graph, "ImageTensor");
-	//const TF_Operation* const* tgt_op_ptr = &tgt_op;
 	printf("\n########\nsession: %lx\noper_in_: %lx\ninput: %lx\noper_out_: %lx\noutput: %lx\n########\n\n", session, oper_in_.oper, input, oper_out_.oper, output);
 	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
+	seg->data_ptr = static_cast<int64_t*>(TF_TensorData(output));
 
 	return TF_GetCode(status); // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/tf_status.h#L42 
 }

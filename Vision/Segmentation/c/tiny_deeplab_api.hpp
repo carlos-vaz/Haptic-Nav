@@ -10,7 +10,7 @@ void free_tensor(void* data, size_t length, void* args);
 typedef struct segmap {
 	const int64_t* dims;
 	size_t bytes;
-	uint8_t* data_ptr;
+	int64_t* data_ptr;
 } segmap_t;
 
 typedef struct image {
@@ -24,8 +24,6 @@ class Deeplab {
    private:
 	TF_Session* session;
 	TF_Graph* graph;
-	//TF_Output output_oper;
-	//TF_Output input_oper;
 	TF_Status* status;
 
    public:
