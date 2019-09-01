@@ -3,16 +3,21 @@
 #include <iostream>
 #include <algorithm>
 
-int main() {
+int main(int argc, char* argv[]) {
 	using namespace std;
 	using namespace cv;
+
+	if(argc != 2) {
+		cout << "Usage:\n\t ./test [path to image]" << endl;
+		return 1;
+	}
 
 	// Initialize Deeplab object
 	Deeplab dl = Deeplab();
 	cout << "Successfully constructed Deeplab object" << endl;
 
 	// Read/resize input image
-	Mat image = imread("/Users/Daniel/Downloads/maxresdefault.jpg"); 
+	Mat image = imread(argv[1]); 
 	int orig_height = image.size().height;
 	int orig_width = image.size().width;
 	double resize_ratio = (double) 513 / max(orig_height, orig_width);
@@ -40,7 +45,6 @@ int main() {
 	const int64_t dims_in[4] = {1, new_size.height, new_size.width, 3};
 	image_t* img_in = (image_t*)malloc(sizeof(image_t));
 	img_in->dims = &dims_in[0];
-	//img_in->data_ptr = (uint8_t*)malloc(new_size.width*new_size.height*3);
 	img_in->data_ptr = resized_image.data;
 	img_in->bytes = new_size.width*new_size.height*3*sizeof(uint8_t);
 
@@ -62,13 +66,7 @@ int main() {
 	cout << "Successfully ran segmentation" << endl;
 
 	// Interpret results
-
 	Mat mySeg(new_size.height, new_size.width, CV_8UC1);
-	//for(int i=0; i<new_size.height*new_size.width; i++) {
-		//cout << seg_out->data_ptr[i] << ", ";	
-		//cout << data[i] << ", ";
-	//}
-	//mySeg.data = seg_out->data_ptr;
 	for(int i=0; i<new_size.width*new_size.height; i++){
 		mySeg.data[i] = 5*(uint8_t)seg_out->data_ptr[i];
 	}

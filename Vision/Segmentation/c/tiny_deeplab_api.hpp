@@ -25,6 +25,8 @@ class Deeplab {
 	TF_Session* session;
 	TF_Graph* graph;
 	TF_Status* status;
+	TF_Tensor* curr_iTensor;
+	TF_Tensor* curr_oTensor;
 
    public:
 	Deeplab(); // Constructor 

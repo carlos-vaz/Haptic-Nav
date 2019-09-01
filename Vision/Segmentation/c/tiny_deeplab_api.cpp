@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <memory>
 #include <tensorflow/c/c_api.h>
 #include "tiny_deeplab_api.hpp"
 
@@ -38,8 +39,10 @@ Deeplab::~Deeplab() {
 }
 
 int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
-	//TODO: Delete old TF_Tensor, TF_Operation, and TF_Output 
-	using namespace std;
+	if(curr_iTensor != NULL)
+		TF_DeleteTensor(curr_iTensor);
+	if(curr_oTensor != NULL)
+		TF_DeleteTensor(curr_oTensor);	
 
 	// Allocate the input tensor
 	TF_Tensor* const input = TF_NewTensor(TF_UINT8, img->dims, 4, img->data_ptr, img->bytes, &free_tensor, NULL);
@@ -56,6 +59,8 @@ int Deeplab::run_segmentation(image_t* img, segmap_t* seg) {
 	TF_SessionRun(session, nullptr, &oper_in_, &input, 1, &oper_out_, &output, 1, nullptr, 0, nullptr, status);
 	seg->data_ptr = static_cast<int64_t*>(TF_TensorData(output));
 
+	curr_iTensor = input;
+	curr_oTensor = output;
 	return TF_GetCode(status); // https://github.com/tensorflow/tensorflow/blob/master/tensorflow/c/tf_status.h#L42 
 }
 
@@ -81,5 +86,7 @@ void free_buffer(void* data, size_t length) {
 }
 
 void free_tensor(void* data, size_t length, void* args) { 
+	using namespace std;
+	cout << "FREEING A TENSOR" << endl;
         free(data);
 }
