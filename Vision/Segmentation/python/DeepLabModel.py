@@ -33,10 +33,11 @@ class DeepLabModel(object):
 
 		with self.graph.as_default():
 			tf.import_graph_def(graph_def, name='')
-			operations = [n for n in tf.get_default_graph().get_operations()]
+			tensors = [n.values() for n in tf.get_default_graph().get_operations()]
+			#tensors = [n for n in tf.get_default_graph().as_graph_def().node]
 
 		self.sess = tf.Session(graph=self.graph)
-		print operations
+		print tensors
 
 	def run(self, image):
 		"""Runs inference on a single image.
