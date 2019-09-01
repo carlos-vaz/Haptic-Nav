@@ -13,7 +13,7 @@ On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv
 
 ### 4. Environment variables
 ```
-$ export LIBREALSENSE_DIR=/path/to/librealsense
+$ export LIBREALSENSE_DIR=/path/to/cloned/librealsense/directory
 ```
 
 ### 5. Build & run
