@@ -17,7 +17,7 @@ Deeplab::Deeplab() {
 
 	string path = "/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb";
 	path = PATH_TO_MODELS_DIR + path;
-	TF_Buffer* graph_def = read_file(path);
+	TF_Buffer* graph_def = read_file(path.data());
 	graph = TF_NewGraph();
 	status = TF_NewStatus();
 	TF_ImportGraphDefOptions* opts = TF_NewImportGraphDefOptions();
