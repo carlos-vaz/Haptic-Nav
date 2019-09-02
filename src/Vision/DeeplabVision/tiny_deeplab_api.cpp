@@ -9,12 +9,12 @@ Deeplab::Deeplab() {
 	using namespace std;
 	cout << "Hello from TensorFlow C library version " << TF_Version() << endl;
 
-	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
 	#ifndef PATH_TO_MODELS_DIR
 	cout << "ERROR DURING BUILD: PATH TO MODELS DIRECTORY WAS NOT SPECIFIED BY CMAKE" << endl;
 	return 1;
 	#endif 
 
+	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
 	string path = "/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb";
 	path = PATH_TO_MODELS_DIR + path;
 	TF_Buffer* graph_def = read_file(path.data());
