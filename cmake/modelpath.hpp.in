@@ -1,0 +1,7 @@
+/* This file will be processed by cmake's "configure_file" command, which will replace 
+   the placeholders between the @ symbols with cmake variables, and insert the contents
+   into .hpp header files that request the absolute path to the Models/ directory
+*/
+
+#define PATH_TO_MODELS_DIR "@CMAKE_PATH_TO_MODELS_DIR@"
+

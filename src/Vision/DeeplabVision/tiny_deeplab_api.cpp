@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <string>
 #include <tensorflow/c/c_api.h>
 #include "tiny_deeplab_api.hpp"
 
@@ -9,7 +10,14 @@ Deeplab::Deeplab() {
 	cout << "Hello from TensorFlow C library version " << TF_Version() << endl;
 
 	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
-	TF_Buffer* graph_def = read_file("/Users/Daniel/Desktop/Haptic_Nav/Models/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb");
+	#ifndef PATH_TO_MODELS_DIR
+	cout << "ERROR DURING BUILD: PATH TO MODELS DIRECTORY WAS NOT SPECIFIED BY CMAKE" << endl;
+	return 1;
+	#endif 
+
+	string path = "/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb";
+	path = PATH_TO_MODELS_DIR + path;
+	TF_Buffer* graph_def = read_file(path);
 	graph = TF_NewGraph();
 	status = TF_NewStatus();
 	TF_ImportGraphDefOptions* opts = TF_NewImportGraphDefOptions();
