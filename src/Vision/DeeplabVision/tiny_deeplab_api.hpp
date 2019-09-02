@@ -2,7 +2,7 @@
 #define TINY_DEEPLAB_API_HPP_
 
 #include <tensorflow/c/c_api.h>
-#include "modelpath.hpp"	// (Created by cmake) Defines the absolute path to the Models directory 
+#include "modelpath_CMAKE.hpp"	// (Created by cmake) Defines the absolute path to the Models directory 
 
 TF_Buffer* read_file(const char* file);
 void free_buffer(void* data, size_t length);

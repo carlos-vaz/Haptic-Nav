@@ -9,10 +9,10 @@ link_directories("$ENV{LIBREALSENSE_DIR}/build")
 
 set(SOURCES deeplab_app.cpp tiny_deeplab_api.cpp)
 
-set(CMAKE_PATH_TO_MODELS "${Haptic_Navigation_SOURCE_DIR}/Models")
+set(CMAKE_PATH_TO_MODELS_DIR "${Haptic_Navigation_SOURCE_DIR}/Models")
 configure_file(
-	"${Haptic_Navigation_SOURCE_DIR}/cmake/modelpath.hpp.in"
-	"${CMAKE_CURRENT_SOURCE_DIR}/modelpath.hpp"
+	"${Haptic_Navigation_SOURCE_DIR}/cmake/modelpath_CMAKE.hpp.in"
+	"${CMAKE_CURRENT_SOURCE_DIR}/modelpath_CMAKE.hpp"
 )
 
 add_executable(deeplab_app ${SOURCES})
