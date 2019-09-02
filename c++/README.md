@@ -12,6 +12,7 @@ Follow the instructions at <https://www.tensorflow.org/install/lang_c>. Verify t
 On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/)
 
 #### 4. Environment variables
+Tell Cmake the location of librealsense:
 ```
 $ export LIBREALSENSE_DIR=/path/to/cloned/librealsense/directory
 ```
