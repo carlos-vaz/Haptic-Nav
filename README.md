@@ -1,5 +1,5 @@
 # Haptic-Nav
-Navigation through touch designed for the blind
+Navigation through touch for the blind
 
 ## Step by step
 
