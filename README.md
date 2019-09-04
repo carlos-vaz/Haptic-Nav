@@ -10,7 +10,7 @@ We use Tensorflow's C API (since the C++ API is only buildable by Bazel, which m
 $ wget https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.14.0.tar.gz
 $ sudo tar -C /usr/local -xzf libtensorflow-cpu-linux-x86_64-1.14.0.tar.gz
 $
-$ # Now the header file c_api.hpp and the library libtensorflow.so.1 (or .dylib for macOS) are in the default search paths
+$ # Now the header file c_api.hpp and the library libtensorflow.so.1 (or .dylib for macOS) are in the default search paths for the compiler
 $ # So if you write a test.cpp file, you can compile and run it
 ```
 Verify that `tensorflow/c/c_api.h` is inside your global include directory (on macOS or Linux: `/usr/local/include/tensorflow/c/c_api.h`), and that the tensorflow C library is in your global lib directory (macOS/Linux: `/usr/local/lib/libtensorflow.dylib` (or `.so` for Linux)). For Linux, also update the dynamic linker run-time bindings with `ldconfig` 
