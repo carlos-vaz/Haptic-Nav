@@ -3,8 +3,8 @@ Navigation through touch for the blind
 
 ## Step by step
 
-#### 1. Install the Tensorflow C API
-We use Tensorflow's C API (since the C++ API is only buildable by Bazel, which makes it less practical for embedded platforms). Follow the instructions at <https://www.tensorflow.org/install/lang_c>. Verify that `tensorflow/c/c_api.h` is inside your global include directory (on macOS: `/usr/local/include/tensorflow/c/c_api.h`), and that the tensorflow C library is in your global lib directory (on macOS: `/usr/local/lib/libtensorflow.dylib`)
+#### 1. Install the Tensorflow C Library
+We use Tensorflow's C API (since the C++ API is only buildable by Bazel, which makes it less practical for embedded platforms). Follow the instructions at <https://www.tensorflow.org/install/lang_c>. Verify that `tensorflow/c/c_api.h` is inside your global include directory (on macOS or Linux: `/usr/local/include/tensorflow/c/c_api.h`), and that the tensorflow C library is in your global lib directory (macOS/Linux: `/usr/local/lib/libtensorflow.dylib`)
 
 #### 2. Install librealsense
 [macOS](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_osx.md)  
