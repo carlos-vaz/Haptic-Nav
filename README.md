@@ -25,9 +25,10 @@ Verify that `tensorflow/c/c_api.h` is inside your global include directory (on m
 
 
 #### 2. Install librealsense
-[macOS](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_osx.md)  
-[Ubuntu Linux](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md)  
-[Windows](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_windows.md)  
+For [macOS](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_osx.md)  
+For [Ubuntu Linux](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md)  
+For [Windows](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_windows.md)  
+On Linux/macOS, ensure that you have a `ibrealsense2`folder inside `usr/local/include`, and `libtensorflow.so` is in `/usr/local/lib`. 
 
 #### 3. Install OpenCV
 On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/).  
@@ -35,13 +36,7 @@ On Linux, use apt-get:
 ```
 sudo apt-get install libopencv-dev
 ```
-
-#### 4. Environment variables
-Tell Cmake the location of librealsense:
-```
-$ export LIBREALSENSE_DIR=/path/to/cloned/librealsense/directory
-```
-#### 5. Build & run
+#### 4. Build & run
 ```
 $ mkdir build && cd build
 $ cmake ..
