@@ -36,8 +36,9 @@ On Linux, use apt-get:
 ```
 sudo apt-get install libopencv-dev
 ```
-#### 4. Build & run
+#### 4. Clone, build & run
 ```
+$ git clone https://github.com/fullprocess/Haptic-Nav.git
 $ mkdir build && cd build
 $ cmake ..
 $ make
