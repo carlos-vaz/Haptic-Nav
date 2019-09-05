@@ -4,9 +4,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 find_package(OpenCV REQUIRED)
 
-include_directories("$ENV{LIBREALSENSE_DIR}/include")
-link_directories("$ENV{LIBREALSENSE_DIR}/build")
-
 set(SOURCES deeplab_app.cpp tiny_deeplab_api.cpp)
 
 set(CMAKE_PATH_TO_MODELS_DIR "${Haptic_Navigation_SOURCE_DIR}/Models")
