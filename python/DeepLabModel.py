@@ -1,5 +1,4 @@
 import os
-import tarfile
 import numpy as np
 from PIL import Image
 import tensorflow as tf
@@ -10,26 +9,13 @@ class DeepLabModel(object):
 	INPUT_TENSOR_NAME = 'ImageTensor:0'
 	OUTPUT_TENSOR_NAME = 'SemanticPredictions:0'
 	INPUT_SIZE = 513
-	FROZEN_GRAPH_NAME = 'frozen_inference_graph'
 
-	def __init__(self, tarball_path):
+	def __init__(self, frozengraph_path):
 		"""Creates and loads pretrained deeplab model."""
 		self.graph = tf.Graph()
 
-
-		graph_def = None
-		# Extract frozen graph from tar archive.
-		tar_file = tarfile.open(tarball_path)
-		for tar_info in tar_file.getmembers():
-			if self.FROZEN_GRAPH_NAME in os.path.basename(tar_info.name):
-				file_handle = tar_file.extractfile(tar_info)
-				graph_def = tf.GraphDef.FromString(file_handle.read())
-				break
-
-		tar_file.close()
-
-		if graph_def is None:
-			raise RuntimeError('Cannot find inference graph in tar archive.')
+		file_handle = file(frozengraph_path)
+		graph_def = tf.GraphDef.FromString(file_handle.read())
 
 		with self.graph.as_default():
 			tf.import_graph_def(graph_def, name='')

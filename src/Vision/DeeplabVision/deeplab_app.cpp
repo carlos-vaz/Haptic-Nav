@@ -10,16 +10,20 @@ int main() {
 	rs2::colorizer color_map;
 	rs2::pipeline pipe;
 	pipe.start();
+	cout << "pipe.start() returned" << endl;
 
 	namedWindow("Original", WINDOW_AUTOSIZE);
 	namedWindow("Segmented", WINDOW_AUTOSIZE);
 	namedWindow("Depth", WINDOW_AUTOSIZE);
 
 	Deeplab dl = Deeplab();
+	cout << "Deeplab returned" << endl;
+
 
 	while(1) 
 	{
 		// Display depth frame
+		cout << "Entered loop" << endl;
 		rs2::frameset data = pipe.wait_for_frames(); 
 		rs2::frame depth = data.get_depth_frame().apply_filter(color_map);
 		const int w_d = depth.as<rs2::video_frame>().get_width();

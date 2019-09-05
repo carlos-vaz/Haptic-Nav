@@ -15,7 +15,7 @@ Deeplab::Deeplab() {
 	#endif 
 
 	// Import Deeplab graph (as a frozen graph, it has the weights hard-coded in as constants, so no need to restore the checkpoint)
-	string path = "/Deeplab_model_unpacked/deeplabv3_mnv2_cityscapes_train/frozen_inference_graph.pb";
+	string path = "/deeplabv3_cityscapes.pb";
 	path = PATH_TO_MODELS_DIR + path;
 	TF_Buffer* graph_def = read_file(path.data());
 	graph = TF_NewGraph();
