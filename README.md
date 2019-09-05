@@ -31,6 +31,10 @@ $ sudo ldconfig       # Only for Linux
 
 #### 3. Install OpenCV
 On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/)
+On Linux, use apt-get:
+```
+sudo apt-get install libopencv-dev
+```
 
 #### 4. Environment variables
 Tell Cmake the location of librealsense:
