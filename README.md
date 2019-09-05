@@ -40,7 +40,7 @@ sudo apt-get install libopencv-dev
 Tell Cmake the location of librealsense:
 ```
 $ export LIBREALSENSE_DIR=/path/to/cloned/librealsense/directory
-```ssss
+```
 #### 5. Build & run
 ```
 $ mkdir build && cd build
