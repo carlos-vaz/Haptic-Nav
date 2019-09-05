@@ -3,29 +3,49 @@ Navigation through touch for the blind
 
 ## Step by step
 
-#### 1. Install the Tensorflow C API
-We use Tensorflow's C API (since the C++ API is only buildable by Bazel, which makes it less practical for embedded platforms). Follow the instructions at <https://www.tensorflow.org/install/lang_c>. Verify that `tensorflow/c/c_api.h` is inside your global include directory (on macOS: `/usr/local/include/tensorflow/c/c_api.h`), and that the tensorflow C library is in your global lib directory (on macOS: `/usr/local/lib/libtensorflow.dylib`)
+#### 1. Install the Tensorflow C Library
+We use Tensorflow's C API (since the C++ API is only buildable by Bazel, which makes it less practical for embedded platforms). Follow the instructions at <https://www.tensorflow.org/install/lang_c>, but for macOS or Linux, it boils down to this:
+
+```
+wget https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.14.0.tar.gz
+sudo tar -C /usr/local -xzf libtensorflow-cpu-linux-x86_64-1.14.0.tar.gz
+```
+Now the header file c_api.hpp and the library libtensorflow.so.1 (or .dylib for macOS) are in the default search paths for the compiler. So if you write a test.cpp file, you can compile and run it:
+```
+g++ test.cpp -o test -ltensorflow
+./test              # Works in macOS, but in Linux you get:
+./test: error while loading shared libraries: libtensorflow.so.1: cannot open shared object file: No such file or directory
+```
+On Linux, you have to update your dynamic linker's cache so it can find libtensorflow at load time
+```
+sudo ldconfig       # Only for Linux
+```
+
+Verify that `tensorflow/c/c_api.h` is inside your global include directory (on macOS or Linux: `/usr/local/include/tensorflow/c/c_api.h`), and that the tensorflow C library is in your global lib directory (macOS/Linux: `/usr/local/lib/libtensorflow.dylib` (or `.so` for Linux)). For Linux, also update the dynamic linker run-time bindings with `ldconfig` 
+
 
 #### 2. Install librealsense
-[macOS](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_osx.md)  
-[Ubuntu Linux](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md)  
-[Windows](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_windows.md)  
+For [macOS](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_osx.md)  
+For [Ubuntu Linux](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md)  
+For [Windows](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_windows.md)  
+On Linux/macOS, ensure that you have a `ibrealsense2`folder inside `usr/local/include`, and `libtensorflow.so` is in `/usr/local/lib`. 
 
 #### 3. Install OpenCV
-On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/)
-
-#### 4. Environment variables
-Tell Cmake the location of librealsense:
+On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/).  
+On Linux, use apt-get:
 ```
-$ export LIBREALSENSE_DIR=/path/to/cloned/librealsense/directory
+sudo apt-get install libopencv-dev
 ```
-
-#### 5. Build & run
+#### 4. Clone, build & run
 ```
-$ mkdir build && cd build
-$ cmake ..
-$ make
-$ ../bin/app
+git clone https://github.com/fullprocess/Haptic-Nav.git && cd Haptic-Nav
+mkdir build && cd build
+cmake ..
+make
+```
+Then, connect your RealSense camera, and run the application of your choice (in `bin`)
+```
+../bin/deeplab_app
 ```
 
 ## Directory organization

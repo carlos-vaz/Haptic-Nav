@@ -4,9 +4,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 find_package(OpenCV REQUIRED)
 
-include_directories("$ENV{LIBREALSENSE_DIR}/include")
-link_directories("$ENV{LIBREALSENSE_DIR}/build")
-
 set(SOURCES deeplab_app.cpp tiny_deeplab_api.cpp)
 
 set(CMAKE_PATH_TO_MODELS_DIR "${Haptic_Navigation_SOURCE_DIR}/Models")
@@ -16,5 +13,5 @@ configure_file(
 )
 
 add_executable(deeplab_app ${SOURCES})
-target_link_libraries(deeplab_app librealsense2.dylib ${OpenCV_LIBS} libtensorflow.dylib)
+target_link_libraries(deeplab_app -lrealsense2 ${OpenCV_LIBS} -ltensorflow)
 
