@@ -42,6 +42,9 @@ git clone https://github.com/fullprocess/Haptic-Nav.git && cd Haptic-Nav
 mkdir build && cd build
 cmake ..
 make
+```
+Then, connect your RealSense camera, and run the application of your choice (in `bin`)
+```
 ../bin/deeplab_app
 ```
 
