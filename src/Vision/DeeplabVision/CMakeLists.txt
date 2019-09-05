@@ -13,5 +13,5 @@ configure_file(
 )
 
 add_executable(deeplab_app ${SOURCES})
-target_link_libraries(deeplab_app librealsense2.dylib ${OpenCV_LIBS} libtensorflow.dylib)
+target_link_libraries(deeplab_app -lrealsense2 ${OpenCV_LIBS} -ltensorflow)
 
