@@ -28,7 +28,7 @@ Verify that `tensorflow/c/c_api.h` is inside your global include directory (on m
 For [macOS](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_osx.md)  
 For [Ubuntu Linux](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md)  
 For [Windows](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation_windows.md)  
-On Linux/macOS, ensure that you have a `ibrealsense2`folder inside `usr/local/include`, and `libtensorflow.so` is in `/usr/local/lib`. 
+On Linux/macOS, ensure that you have a `librealsense2`folder inside `usr/local/include`, and `libtensorflow.so` is in `/usr/local/lib`. 
 
 #### 3. Install OpenCV
 On a Mac, [use Homebrew](https://www.pyimagesearch.com/2016/12/19/install-opencv-3-on-macos-with-homebrew-the-easy-way/).  
